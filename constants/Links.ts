@@ -1,4 +1,4 @@
-import type { NavigationItem } from "@/types/type";
+import type { FooterLink, NavigationItem } from "@/types/type";
 
 export const primaryLinks: NavigationItem[] = [
   {
@@ -103,4 +103,19 @@ export const images = [
     src: "/electronics-online-shopping-banner-devices-delivery-box-270532354.webp",
     href: "",
   },
+];
+
+export const customerCare: FooterLink[] = [
+  { label: "Contact Us" },
+  { label: "Shipping & Delivery" },
+  { label: "Returns & Refunds" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Track Your Order" },
+];
+
+export const company: FooterLink[] = [
+  { label: "About Vendra" },
+  { label: "Careers" },
+  { label: "Privacy Policy" },
+  { label: "Terms & Conditions" },
 ];

@@ -10,15 +10,23 @@ export function HeroCategory() {
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="hidden flex-col gap-6 lg:flex">
           <div className="grid grid-cols-5 gap-6">
-            {primaryLinks.map((category) => (
-              <CategoryCard key={category.title} category={category} />
+            {primaryLinks.map((category, index) => (
+              <CategoryCard
+                key={category.title}
+                category={category}
+                y={index < 2 ? (index + 2) * 15 : index * 10}
+              />
             ))}
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-5 lg:hidden">
-          {primaryLinks.map((category) => (
-            <CategoryCard key={category.title} category={category} />
+          {primaryLinks.map((category, index) => (
+            <CategoryCard
+              key={category.title}
+              category={category}
+              y={index < 2 ? (index + 1) * 15 : index * 10}
+            />
           ))}
         </div>
       </div>

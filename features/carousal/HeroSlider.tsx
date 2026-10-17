@@ -95,9 +95,9 @@ export function HeroSlider() {
           type="button"
           onClick={() => swiperRef.current?.slidePrev()}
           aria-label="Previous slide"
-          className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 hidden md:flex size-11 items-center justify-center rounded-full bg-white text-black shadow-md sm:shadow-lg transition-all duration-300 ease-out hover:bg-black hover:text-white active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 md:opacity-0 md:pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+          className="group/prev absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 hidden md:flex size-11 items-center justify-center rounded-full bg-white text-black shadow-md sm:shadow-lg transition-all duration-300 ease-out hover:bg-black hover:text-white active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 md:opacity-0 md:pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto cursor-pointer"
         >
-          <ChevronLeft className="size-6 text-black hover:text-white cursor-pointer stroke-[2.25]" />
+          <ChevronLeft className="size-6 text-black group-hover/prev:text-white stroke-[2.25]" />
         </button>
 
         <button

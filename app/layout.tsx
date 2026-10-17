@@ -1,9 +1,10 @@
 import { Metadata } from "next";
+import Script from "next/script";
 import { Montserrat, Geist } from "next/font/google";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import Providers from "@/Providers";
-import AppShell from "@/components/Loaders/AppShell";
+import AppShell from "@/components/shared/AppShell";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -34,6 +35,11 @@ function RootLayout({ children }: { children: React.ReactNode }) {
       )}
       suppressHydrationWarning
     >
+      <head>
+        <Script id="splash-init" strategy="beforeInteractive">
+          {`try{if(!sessionStorage.getItem("app-loader-shown")){document.documentElement.setAttribute("data-splash","true")}}catch(e){}`}
+        </Script>
+      </head>
       <body
         className={`${montserrat.className} min-h-screen flex flex-col antialiased relative overflow-x-hidden`}
       >

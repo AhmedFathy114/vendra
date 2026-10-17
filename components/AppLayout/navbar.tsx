@@ -10,15 +10,15 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { BrandSection } from "@/components/navigation/brand-section";
+import { BrandSection } from "@/components/AppLayout/brand-section";
 import {
   MobileNavigationLinks,
   PrimaryNavigationSection,
-} from "@/components/navigation/center-section";
+} from "@/components/AppLayout/center-section";
 import {
   ActionsSection,
   SearchField,
-} from "@/components/navigation/right-section";
+} from "@/components/AppLayout/right-section";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import {
