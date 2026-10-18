@@ -28,7 +28,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { primaryLinks } from "@/constants/Links";
+import { primaryLinks } from "@/lib/Links";
 
 function MobileBottomNav({ openMenu }: { openMenu: () => void }) {
   const items = [

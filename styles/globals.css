@@ -130,54 +130,6 @@
   }
 }
 
-/* ===== Reusable Swiper (New Arrivals style) ===== */
-.reusable-swiper {
-  --swiper-navigation-size: 18px;
-  --swiper-navigation-color: var(--foreground);
-  --swiper-pagination-color: var(--foreground);
-  --swiper-pagination-bullet-inactive-color: var(--foreground);
-  --swiper-pagination-bullet-inactive-opacity: 0.55;
-  --swiper-pagination-bullet-size: 5px;
-  --swiper-pagination-bullet-horizontal-gap: 13px;
-  padding-bottom: 3rem !important;
-}
-
-/* النقط تحت الكروت */
-.reusable-swiper .swiper-pagination {
-  bottom: 0.5rem !important;
-}
-
-/* النقطة النشطة: نقطة جواها دايرة */
-.reusable-swiper .swiper-pagination-bullet-active {
-  opacity: 1;
-  outline: 1.5px solid var(--foreground);
-  outline-offset: 5px;
-}
-
-/* الأسهم: دايرة بيضا فيها ظل، وتظهر على الديسكتوب بس */
-.reusable-swiper .swiper-button-prev,
-.reusable-swiper .swiper-button-next {
-  display: none;
-  top: 38%;
-  width: 40px;
-  height: 40px;
-  border-radius: 9999px;
-  background: var(--background);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 0.18);
-}
-
-.reusable-swiper .swiper-button-disabled {
-  opacity: 0;
-  pointer-events: none;
-}
-
-@media (min-width: 1024px) {
-  .reusable-swiper .swiper-button-prev,
-  .reusable-swiper .swiper-button-next {
-    display: flex;
-  }
-}
-
 /* ===== Reusable Swiper ===== */
 .reusable-swiper {
   --swiper-pagination-color: var(--foreground);

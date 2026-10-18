@@ -1,13 +1,14 @@
 "use client";
 
 import { useAllProducts } from "@/hooks/queries/useAllProducts";
-import { HeroSlider } from "../carousal/HeroSlider";
+import { HeroSlider } from "./HeroSlider";
 import { HeroCategory } from "./HeroCategory";
 import ReusableSection from "@/components/shared/ReusableSection";
 import ProductCard from "@/components/cards/ProductCard";
 import { Product } from "@/types/type";
 import { useBestProduct } from "@/hooks/queries/useBestProduct";
 import { useCategoryProduct } from "@/hooks/queries/useCategoryProduct";
+import LoadingModel from "@/components/Loaders/LoadingModel";
 
 function Home() {
   const { Products } = useAllProducts();
@@ -27,12 +28,13 @@ function Home() {
 
   return (
     <>
+      <LoadingModel message="Loading Home Page"/>
       <HeroSlider />
       <HeroCategory />
 
       <ReusableSection<Product>
         title="new arrivals"
-        viewAllHref="/new-arrival"
+        viewAllHref="/collection/new-arrival"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={newArrivals}
         getKey={(product) => product.id}
@@ -40,7 +42,7 @@ function Home() {
 
       <ReusableSection<Product>
         title="Best Seller"
-        viewAllHref="/best-seller"
+        viewAllHref="/collection/best-seller"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={bestProduct?.products.slice(0, 10) ?? []}
         getKey={(product) => product.id}
@@ -48,7 +50,7 @@ function Home() {
 
       <ReusableSection<Product>
         title="smart phones"
-        viewAllHref="/smartphones"
+        viewAllHref="/shop/smartphones"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={smartPhones?.products.slice(0, 10) ?? []}
         getKey={(product) => product.id}
@@ -56,7 +58,7 @@ function Home() {
 
       <ReusableSection<Product>
         title="mens shirts"
-        viewAllHref="/mens-shirts"
+        viewAllHref="/shop/mens-shirts"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={menShirts?.products.slice(0, 10) ?? []}
         getKey={(product) => product.id}
@@ -64,7 +66,7 @@ function Home() {
 
       <ReusableSection<Product>
         title="womens dresses"
-        viewAllHref="/womens-dresses"
+        viewAllHref="/shop/womens-dresses"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={womenDresses?.products.slice(0, 30) ?? []}
         getKey={(product) => product.id}
@@ -72,7 +74,7 @@ function Home() {
 
       <ReusableSection<Product>
         title="furniture"
-        viewAllHref="/furniture"
+        viewAllHref="/shop/furniture"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={furniture?.products.slice(0, 30) ?? []}
         getKey={(product) => product.id}

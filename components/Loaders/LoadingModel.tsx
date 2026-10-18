@@ -1,46 +1,100 @@
-interface LoadingModelProps {
-  message?: string;
-}
-export default function LoadingModel({
-  message = "MOVIE NIGHT",
-}: LoadingModelProps) {
-  return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/90 backdrop-blur-md">
-      <div className="relative flex flex-col items-center">
-        
-        <div className="relative w-32 h-32">
-          <div className="absolute inset-0 rounded-full border-t-4 border-l-4 border-red-600 animate-spin" />
-          <div className="absolute inset-2 rounded-full border-r-4 border-b-4 border-red-900/50 animate-spin-reverse" />
+"use client";
 
-          
+import { useEffect, useRef, useState } from "react";
+import { ShoppingBag } from "lucide-react";
+
+type LoadingModelProps = {
+  message?: string;
+  duration?: number;
+  onHidden?: () => void;
+};
+
+export default function LoadingModel({
+  message,
+  duration = 900,
+  onHidden,
+}: LoadingModelProps) {
+  const [isExiting, setIsExiting] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+
+  const onHiddenRef = useRef(onHidden);
+  useEffect(() => {
+    onHiddenRef.current = onHidden;
+  }, [onHidden]);
+
+  useEffect(() => {
+    if (duration <= 0) return;
+
+    const exitTimer = window.setTimeout(() => {
+      setIsExiting(true);
+    }, duration);
+
+    const hideTimer = window.setTimeout(() => {
+      setIsHidden(true);
+      onHiddenRef.current?.();
+    }, duration + 500);
+
+    return () => {
+      window.clearTimeout(exitTimer);
+      window.clearTimeout(hideTimer);
+    };
+  }, [duration]);
+
+  if (isHidden) return null;
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      aria-label={message ?? "Loading Vendra"}
+      className={`fixed inset-0 z-100 flex items-center justify-center bg-background/85 backdrop-blur-md transition-opacity duration-500 ease-out ${
+        isExiting ? "pointer-events-none opacity-0" : "opacity-100"
+      }`}
+    >
+      <div
+        className={`relative flex flex-col items-center px-6 text-center transition-all duration-500 ease-out ${
+          isExiting
+            ? "translate-y-2 scale-95 opacity-0"
+            : "translate-y-0 scale-100 opacity-100"
+        }`}
+      >
+        <div
+          aria-hidden="true"
+          className="absolute top-2 size-44 rounded-full bg-red-600/10 blur-3xl"
+        />
+
+        <div className="relative size-32">
+          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-red-600 border-l-red-600 animate-spin" />
+          <div className="absolute inset-2 rounded-full border-4 border-transparent border-r-red-600/40 border-b-red-600/40 animate-spin-reverse" />
+
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(220,38,38,0.4)] animate-pulse">
-              <svg
-                viewBox="0 0 24 24"
-                className="w-9 h-9 text-white fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M7 4H17C18.1046 4 19 4.89543 19 6V18C19 19.1046 18.1046 20 17 20H7C5.89543 20 5 19.1046 5 18V6C5 4.89543 5.89543 4 7 4ZM7 6V18H17V6H7ZM9 8H11V10H9V8ZM9 11H11V13H9V11ZM9 14H11V16H9V14ZM13 8H15V10H13V8ZM13 11H15V13H13V11ZM13 14H15V16H13V14Z" />
-              </svg>
+            <div className="flex size-16 items-center justify-center rounded-2xl bg-red-600 text-white shadow-[0_0_40px_rgba(220,38,38,0.35)] animate-pulse">
+              <ShoppingBag
+                className="size-8"
+                strokeWidth={2.25}
+                aria-hidden="true"
+              />
             </div>
           </div>
         </div>
 
-        
-        <div className="mt-10 flex flex-col items-center gap-4">
-          <h2 className="text-2xl font-bold tracking-[0.2em] text-white uppercase text-center max-w-xs">
-            {message === "MOVIE NIGHT" ? (
+        <div className="mt-10 flex flex-col items-center gap-3">
+          <h2 className="text-2xl font-black uppercase tracking-[0.3em] text-foreground">
+            {message ?? (
               <>
-                MOVIE <span className="text-red-600">NIGHT</span>
+                VENDRA<span className="text-red-600">.</span>
               </>
-            ) : (
-              message
             )}
           </h2>
-          <div className="flex gap-2">
-            <div className="w-2 h-2 bg-red-600 rounded-full animate-bounce [animation-delay:-0.3s]" />
-            <div className="w-2 h-2 bg-red-600 rounded-full animate-bounce [animation-delay:-0.15s]" />
-            <div className="w-2 h-2 bg-red-600 rounded-full animate-bounce" />
+
+          <p className="text-[10px] font-medium uppercase tracking-[0.35em] text-muted-foreground">
+            Your style, your choice
+          </p>
+
+          <div className="flex gap-2" aria-hidden="true">
+            <span className="size-2 rounded-full bg-red-600 animate-bounce [animation-delay:-0.3s]" />
+            <span className="size-2 rounded-full bg-red-600 animate-bounce [animation-delay:-0.15s]" />
+            <span className="size-2 rounded-full bg-red-600 animate-bounce" />
           </div>
         </div>
       </div>
@@ -54,8 +108,18 @@ export default function LoadingModel({
             transform: rotate(0deg);
           }
         }
+
         .animate-spin-reverse {
           animation: spin-reverse 2.5s linear infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-spin,
+          .animate-spin-reverse,
+          .animate-bounce,
+          .animate-pulse {
+            animation: none !important;
+          }
         }
       `}</style>
     </div>

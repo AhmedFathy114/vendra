@@ -14,7 +14,7 @@ function logPrefetchError(context: string) {
 export async function prefetchHome(queryClient: QueryClient) {
   return Promise.all([
     queryClient
-      .query({ queryKey: ["All-products"], queryFn: getAllProducts })
+      .query({ queryKey: ["all-products"], queryFn: getAllProducts })
       .catch(logPrefetchError("All-products")),
     queryClient
       .query({

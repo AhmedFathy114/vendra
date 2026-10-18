@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useAllProducts() {
   const { data: Products, isPending: isLoading } = useQuery<ProductsResponse>({
-    queryKey: ["All-products"],
+    queryKey: ["all-products"],
     queryFn: getAllProducts,
   });
 

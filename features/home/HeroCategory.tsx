@@ -1,5 +1,5 @@
 import CategoryCard from "@/components/cards/categoryCard";
-import { primaryLinks } from "@/constants/Links";
+import { primaryLinks } from "@/lib/Links";
 
 export function HeroCategory() {
   return (

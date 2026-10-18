@@ -1,7 +1,7 @@
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { BrandSection } from "@/components/AppLayout/brand-section";
-import { company, customerCare, primaryLinks } from "@/constants/Links";
+import { company, customerCare, primaryLinks } from "@/lib/Links";
 import { FooterLink } from "@/types/type";
 import { motion } from "motion/react";
 

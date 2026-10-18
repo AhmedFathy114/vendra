@@ -24,7 +24,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const href = `/products/${product.id}`;
+  const href = `/shop/products/${product.id}`;
   const discount = Math.round(product.discountPercentage ?? 0);
   const hasDiscount = discount > 0;
   const finalPrice = hasDiscount

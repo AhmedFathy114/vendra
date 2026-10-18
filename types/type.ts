@@ -1,6 +1,7 @@
 export type NavigationLink = {
   title: string;
   slug: string;
+  image?: string;
 };
 
 export type NavigationItem = {

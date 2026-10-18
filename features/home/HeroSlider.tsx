@@ -9,8 +9,8 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Slide from "./slide";
-import { images } from "@/constants/Links";
+import Slide from "../../components/shared/slide";
+import { images } from "@/lib/Links";
 
 export function HeroSlider() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -70,15 +70,10 @@ export function HeroSlider() {
                 muted
                 playsInline
                 loop
-                preload="auto"
+                preload="metadata"
                 className="absolute inset-0 size-full object-cover"
                 src="https://activ.eg/cdn/shop/videos/c/vp/ad0f0c05333c41039d74de3d7fa42703/ad0f0c05333c41039d74de3d7fa42703.HD-720p-1.6Mbps-95623360.mp4?v=0"
-              >
-                <source
-                  src="https://activ.eg/cdn/shop/videos/c/vp/ad0f0c05333c41039d74de3d7fa42703/ad0f0c05333c41039d74de3d7fa42703.HD-720p-1.6Mbps-95623360.mp4?v=0"
-                  type="video/mp4"
-                />
-              </video>
+              />
             </div>
           </SwiperSlide>
 
