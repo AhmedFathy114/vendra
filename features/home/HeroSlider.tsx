@@ -80,7 +80,7 @@ export function HeroSlider() {
           {images.map((item) => (
             <>
               <SwiperSlide key={item.id}>
-                <Slide key={item.id} src={item.src} href={item.href} />
+                <Slide key={item.id} src={item.src} />
               </SwiperSlide>
             </>
           ))}
