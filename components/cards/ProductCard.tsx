@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Heart, Star } from "lucide-react";
 import { useState } from "react";
 import type { Product } from "@/types/type";
+import { motion } from "motion/react";
 
 type ProductCardProps = {
   product: Product;
@@ -40,7 +41,13 @@ export default function ProductCard({
     product.stock <= LOW_STOCK_LIMIT;
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-ring">
+    <motion.article
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.9, ease: "easeInOut" }}
+      viewport={{ once: true, amount: 0.2 }}
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-ring"
+    >
       <button
         type="button"
         aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
@@ -148,6 +155,6 @@ export default function ProductCard({
           {isOutOfStock ? "Sold out" : "Shop now"}
         </span>
       </div>
-    </article>
+    </motion.article>
   );
 }

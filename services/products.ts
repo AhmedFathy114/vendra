@@ -7,12 +7,14 @@ export async function getAllProducts(): Promise<ProductsResponse> {
   return data;
 }
 
-export async function getBestProducts(
+export async function getCollections(
   sortBy: string,
-  order: "asc" | "desc" = "desc",
+  order: string = "desc",
+  limit = 20,
+  skip = 0,
 ): Promise<ProductsResponse> {
   const response = await api.get<ProductsResponse>("/products", {
-    params: { sortBy, order },
+    params: { sortBy, order, limit, skip },
   });
   const data = response.data;
   return data;

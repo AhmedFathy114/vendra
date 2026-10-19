@@ -1,9 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
-import {
-  getAllProducts,
-  getBestProducts,
-  getCategoryProducts,
-} from "@/services/products";
+import { getCategoryProducts, getCollections } from "@/services/products";
+import { Collection } from "@/types/type";
 
 function logPrefetchError(context: string) {
   return (error: unknown) => {
@@ -11,17 +8,29 @@ function logPrefetchError(context: string) {
   };
 }
 
-export async function prefetchHome(queryClient: QueryClient) {
+export async function prefetchHome(
+  queryClient: QueryClient,
+  collections: Collection[],
+) {
+  const limit = 20;
+  const skip = 0;
+
   return Promise.all([
-    queryClient
-      .query({ queryKey: ["all-products"], queryFn: getAllProducts })
-      .catch(logPrefetchError("All-products")),
-    queryClient
-      .query({
-        queryKey: ["best-sellers"],
-        queryFn: () => getBestProducts("rating", "desc"),
-      })
-      .catch(logPrefetchError("best-sellers")),
+    ...collections.map((collection) =>
+      queryClient
+        .query({
+          queryKey: [
+            "collection",
+            collection.sortBy,
+            collection.order,
+            limit,
+            skip,
+          ],
+          queryFn: () =>
+            getCollections(collection.sortBy, collection.order, limit, skip),
+        })
+        .catch(logPrefetchError("collection")),
+    ),
     queryClient
       .query({
         queryKey: ["category-products", "smartphones"],

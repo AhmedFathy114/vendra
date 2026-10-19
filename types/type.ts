@@ -75,3 +75,16 @@ export type FooterLink = {
   label: string;
   href?: string;
 };
+
+export type Collection = {
+  sortBy: string;
+  order: string;
+};
+
+export type PaginationProps = {
+  page: number;
+  total: number;
+  limit: number;
+  onPageChange: (page: number) => void;
+  disabled?: boolean;
+};

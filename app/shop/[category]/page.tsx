@@ -28,8 +28,12 @@ export async function generateMetadata({
     };
   }
 
+  const categoryName = parentCategory.title.replace(/\b\w/g, (char) =>
+    char.toUpperCase(),
+  );
+
   return {
-    title: parentCategory.title,
+    title: categoryName,
     description: `Explore ${parentCategory.title} at Vendra. Shop ${
       parentCategory.children?.length ?? 0
     } curated subcategories and discover products for your everyday style.`,
