@@ -8,7 +8,7 @@ function logPrefetchError(context: string) {
   };
 }
 
-export async function prefetchHome(
+export function prefetchHome(
   queryClient: QueryClient,
   collections: Collection[],
 ) {
@@ -33,26 +33,26 @@ export async function prefetchHome(
     ),
     queryClient
       .query({
-        queryKey: ["category-products", "smartphones"],
-        queryFn: () => getCategoryProducts("smartphones"),
+        queryKey: ["category-products", "smartphones", limit, skip],
+        queryFn: () => getCategoryProducts("smartphones", limit, skip),
       })
       .catch(logPrefetchError("smartphones")),
     queryClient
       .query({
-        queryKey: ["category-products", "mens-shirts"],
-        queryFn: () => getCategoryProducts("mens-shirts"),
+        queryKey: ["category-products", "mens-shirts", limit, skip],
+        queryFn: () => getCategoryProducts("mens-shirts", limit, skip),
       })
       .catch(logPrefetchError("mens-shirts")),
     queryClient
       .query({
-        queryKey: ["category-products", "womens-dresses"],
-        queryFn: () => getCategoryProducts("womens-dresses"),
+        queryKey: ["category-products", "womens-dresses", limit, skip],
+        queryFn: () => getCategoryProducts("womens-dresses", limit, skip),
       })
       .catch(logPrefetchError("womens-dresses")),
     queryClient
       .query({
-        queryKey: ["category-products", "furniture"],
-        queryFn: () => getCategoryProducts("furniture"),
+        queryKey: ["category-products", "furniture", limit, skip],
+        queryFn: () => getCategoryProducts("furniture", limit, skip),
       })
       .catch(logPrefetchError("furniture")),
   ]);

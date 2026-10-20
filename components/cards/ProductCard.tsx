@@ -6,6 +6,7 @@ import { Heart, Star } from "lucide-react";
 import { useState } from "react";
 import type { Product } from "@/types/type";
 import { motion } from "motion/react";
+import { usd } from "@/lib/utils";
 
 type ProductCardProps = {
   product: Product;
@@ -13,11 +14,6 @@ type ProductCardProps = {
 };
 
 const LOW_STOCK_LIMIT = 5;
-
-const usd = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
 
 export default function ProductCard({
   product,

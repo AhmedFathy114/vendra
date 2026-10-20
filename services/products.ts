@@ -1,5 +1,5 @@
 import { api } from "@/lib/axios";
-import { ProductsResponse } from "@/types/type";
+import { Product, ProductsResponse } from "@/types/type";
 
 export async function getAllProducts(): Promise<ProductsResponse> {
   const response = await api.get<ProductsResponse>("/products");
@@ -20,11 +20,27 @@ export async function getCollections(
   return data;
 }
 
-export async function getCategoryProducts(category: string) {
+export async function getCategoryProducts(
+  category: string,
+  limit = 20,
+  skip = 0,
+) {
   const response = await api.get<ProductsResponse>(
     `/products/category/${category}`,
+    {
+      params: {
+        limit,
+        skip,
+      },
+    },
   );
 
+  const data = response.data;
+  return data;
+}
+
+export async function getSingleProduct(productId: number): Promise<Product> {
+  const response = await api.get(`/products/${productId}`);
   const data = response.data;
   return data;
 }

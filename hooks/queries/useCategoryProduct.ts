@@ -2,19 +2,21 @@
 
 import { getCategoryProducts } from "@/services/products";
 import { ProductsResponse } from "@/types/type";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-export function useCategoryProduct(category: string) {
+export function useCategoryProduct(category: string, limit = 20, skip = 0) {
   const {
     data: categoryProducts,
     isPending: isLoading,
     isError,
-    error,
+    isFetching,
   } = useQuery<ProductsResponse>({
-    queryKey: ["category-products", category],
-    queryFn: () => getCategoryProducts(category),
+    queryKey: ["category-products", category, limit, skip],
+    queryFn: () => getCategoryProducts(category, limit, skip),
+    placeholderData: keepPreviousData,
+    staleTime: 60 * 1000,
     enabled: !!category,
   });
 
-  return { categoryProducts, isLoading, isError, error };
+  return { categoryProducts, isLoading, isError, isFetching };
 }

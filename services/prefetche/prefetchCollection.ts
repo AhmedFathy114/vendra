@@ -8,7 +8,7 @@ function logPrefetchError(context: string) {
   };
 }
 
-async function prefetchCollection(
+function prefetchCollection(
   queryClient: QueryClient,
   collection: Collection,
   limit = 20,

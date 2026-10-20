@@ -41,7 +41,7 @@ async function Page({
   searchParams,
 }: {
   params: Promise<{ collection: string }>;
-  searchParams: Promise<{ page?: string | string[] }>;
+  searchParams: Promise<{ page?: string }>;
 }) {
   const { collection } = await params;
   const { page: pageParam } = await searchParams;

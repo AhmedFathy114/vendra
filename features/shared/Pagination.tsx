@@ -51,7 +51,7 @@ export default function Pagination({
           onClick={() => onPageChange(currentPage - 1)}
           disabled={disabled || currentPage <= 1}
           aria-label="Previous page"
-          className={`${buttonClass} bg-background text-foreground hover:bg-muted`}
+          className={`${buttonClass} bg-background text-foreground hover:bg-muted cursor-pointer`}
         >
           <ChevronLeft className="size-4" aria-hidden="true" />
           <span className="sm:inline">Previous</span>
@@ -83,7 +83,7 @@ export default function Pagination({
                     item === currentPage
                       ? "border-foreground bg-foreground text-background"
                       : "bg-background text-foreground hover:bg-muted"
-                  }`}
+                  } cursor-pointer`}
                 >
                   {item}
                 </button>
@@ -97,7 +97,7 @@ export default function Pagination({
           onClick={() => onPageChange(currentPage + 1)}
           disabled={disabled || currentPage >= totalPages}
           aria-label="Next page"
-          className={`${buttonClass} bg-background text-foreground hover:bg-muted`}
+          className={`${buttonClass} bg-background text-foreground hover:bg-muted cursor-pointer`}
         >
           <span className=" sm:inline">Next</span>
           <ChevronRight className="size-4" aria-hidden="true" />
