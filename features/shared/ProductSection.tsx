@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useId, useState } from "react";
 import ProductCard from "@/components/cards/ProductCard";
 import { Product } from "@/types/type";
 import { motion } from "motion/react";

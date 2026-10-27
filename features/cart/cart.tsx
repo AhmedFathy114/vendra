@@ -13,6 +13,7 @@ import {
 import CartItem from "./cart-item";
 import CartSkeleton from "./cart-skeleton";
 import CartSummary from "./cart-summary";
+import LoadingModel from "@/components/Loaders/LoadingModel";
 
 type CartProps = {
   userId: number | null;
@@ -97,17 +98,20 @@ function Cart({ userId }: CartProps) {
         title="Sign in to view your cart"
         description="Your cart is linked to your account. Sign in to see the items you've saved."
       >
-        <Link
-          href="/login?callbackUrl=/cart"
-          className={primaryLinkClassName}
-        >
+        <Link href="/login?callbackUrl=/cart" className={primaryLinkClassName}>
           Sign in
         </Link>
       </CartMessage>
     );
   }
 
-  if (isLoading) return <CartSkeleton />;
+  if (isLoading)
+    return (
+      <>
+        <LoadingModel message="Loading Cart" duration={500} />
+        <CartSkeleton />
+      </>
+    );
 
   if (isError) {
     return (

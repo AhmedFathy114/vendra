@@ -54,7 +54,7 @@ export function SearchField({ className = "" }: { className?: string }) {
   );
 }
 
-export function ActionsSection() {
+export function ActionsSection({ cartCount }: { cartCount: number }) {
   return (
     <div
       className="flex shrink-0 items-center gap-2"
@@ -64,7 +64,7 @@ export function ActionsSection() {
       <IconAction label="Account">
         <UserRound className="size-5.5 cursor-pointer hover:text-red-700" />
       </IconAction>
-      <IconAction label="Cart" count={0}>
+      <IconAction label="Cart" count={cartCount > 0 ? cartCount : undefined}>
         <ShoppingBag className="size-5.5 cursor-pointer hover:text-red-700" />
       </IconAction>
       <ModeToggle />

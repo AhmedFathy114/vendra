@@ -42,7 +42,7 @@ function Home() {
 
       <ReusableSection<Product>
         title="smart phones"
-        viewAllHref="/shop/smartphones"
+        viewAllHref="/shop/electronics/smartphones"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={smartPhones?.products.slice(0, 10) ?? []}
         getKey={(product) => product.id}
@@ -50,7 +50,7 @@ function Home() {
 
       <ReusableSection<Product>
         title="mens shirts"
-        viewAllHref="/shop/mens-shirts"
+        viewAllHref="/shop/mens-fashion/mens-shirts"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={menShirts?.products.slice(0, 10) ?? []}
         getKey={(product) => product.id}
@@ -58,7 +58,7 @@ function Home() {
 
       <ReusableSection<Product>
         title="womens dresses"
-        viewAllHref="/shop/womens-dresses"
+        viewAllHref="/shop/womens-fashion/womens-dresses"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={womenDresses?.products.slice(0, 30) ?? []}
         getKey={(product) => product.id}
@@ -66,7 +66,7 @@ function Home() {
 
       <ReusableSection<Product>
         title="furniture"
-        viewAllHref="/shop/furniture"
+        viewAllHref="/shop/home-living/furniture"
         render={(product) => <ProductCard product={product} key={product.id} />}
         data={furniture?.products.slice(0, 30) ?? []}
         getKey={(product) => product.id}

@@ -50,8 +50,9 @@ export async function getSearchProduct(
   limit = 20,
   skip = 0,
 ): Promise<ProductsResponse> {
-  const response = await api.get(`/products/search?q=${title}`, {
+  const response = await api.get<ProductsResponse>("/products/search", {
     params: {
+      q: title.trim(),
       limit,
       skip,
     },

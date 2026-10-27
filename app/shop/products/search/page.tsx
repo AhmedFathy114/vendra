@@ -7,15 +7,16 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ title: string; page: string }>;
+  searchParams: Promise<{ title?: string; page?: string }>;
 }) {
-  const { title, page } = await searchParams;
+  const { title: rawTitle, page } = await searchParams;
+  const title = rawTitle?.trim() ?? "";
 
   const { limit, skip } = getPagination(Number(page ?? 1));
 
   const queryClient = getQueryClient();
 
-  if (!title.trim()) {
+  if (title) {
     await prefetchSearch(queryClient, title, limit, skip);
   }
 

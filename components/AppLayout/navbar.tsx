@@ -3,6 +3,7 @@
 import { Grid2X2, House, Menu, ShoppingBag, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { BrandSection } from "@/components/AppLayout/brand-section";
 import {
   MobileNavigationLinks,
@@ -21,14 +22,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useUserCart } from "@/hooks/queries/useUserCart";
 import { primaryLinks } from "@/lib/Links";
 
-function MobileBottomNav({ openMenu }: { openMenu: () => void }) {
+function MobileBottomNav({
+  openMenu,
+  cartCount,
+}: {
+  openMenu: () => void;
+  cartCount: number;
+}) {
   const items = [
     { label: "Home", href: "/", icon: <House /> },
     { label: "Account", href: "/account", icon: <UserRound /> },
     { label: "Categories", icon: <Grid2X2 />, onClick: openMenu },
-    { label: "Cart", href: "/cart", icon: <ShoppingBag />, count: 0 },
+    { label: "Cart", href: "/cart", icon: <ShoppingBag />, count: cartCount },
   ];
 
   return (
@@ -75,6 +83,11 @@ function MobileBottomNav({ openMenu }: { openMenu: () => void }) {
 
 export function Navbar() {
   const [sheetOpen, setSheetOpen] = useState(false);
+  const { data: session } = useSession();
+  const userId = Number(session?.user?.id);
+  const validUserId = Number.isInteger(userId) && userId > 0 ? userId : null;
+  const { cart } = useUserCart(validUserId);
+  const cartCount = cart?.totalQuantity ?? 0;
 
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
@@ -85,7 +98,7 @@ export function Navbar() {
               <BrandSection />
             </div>
             <PrimaryNavigationSection items={primaryLinks} />
-            <ActionsSection />
+            <ActionsSection cartCount={cartCount} />
           </div>
         </div>
 
@@ -129,7 +142,10 @@ export function Navbar() {
         </div>
       </SheetContent>
 
-      <MobileBottomNav openMenu={() => setSheetOpen(true)} />
+      <MobileBottomNav
+        openMenu={() => setSheetOpen(true)}
+        cartCount={cartCount}
+      />
     </Sheet>
   );
 }
