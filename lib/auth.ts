@@ -2,6 +2,7 @@ import { login } from "@/services/auth";
 import axios from "axios";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { NextResponse } from "next/server";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
@@ -41,8 +42,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    authorized({ auth }) {
-      return !!auth?.user && auth.error !== "RefreshAccessTokenError";
+    authorized({ auth, request }) {
+      if (auth?.user && auth.error !== "RefreshAccessTokenError") {
+        return true;
+      }
+
+      const loginUrl = new URL("/login", request.nextUrl.origin);
+      loginUrl.searchParams.set(
+        "callbackUrl",
+        `${request.nextUrl.pathname}${request.nextUrl.search}`,
+      );
+
+      return NextResponse.redirect(loginUrl);
     },
     async jwt({ user, token }) {
       if (user) {
