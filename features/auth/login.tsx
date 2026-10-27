@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { LoaderCircle } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { navigateTo } from "@/lib/navigation";
 import { useForm } from "react-hook-form";
 
 type LoginFormValues = {
@@ -30,7 +30,6 @@ function getSafeDestination(callbackUrl: string | null) {
 }
 
 function Login() {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -65,7 +64,7 @@ function Login() {
         "callbackUrl",
       );
 
-      router.replace(getSafeDestination(callbackUrl));
+      navigateTo(getSafeDestination(callbackUrl));
     } catch {
       setError("root", {
         message: "Something went wrong. Please try again.",

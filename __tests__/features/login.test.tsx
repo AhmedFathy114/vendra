@@ -1,20 +1,18 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { signIn } from "next-auth/react";
 import Login from "@/features/auth/login";
-
-const mockReplace = jest.fn();
+import { navigateTo } from "@/lib/navigation";
 
 jest.mock("next-auth/react", () => ({
   signIn: jest.fn(),
 }));
 
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    replace: mockReplace,
-  }),
+jest.mock("@/lib/navigation", () => ({
+  navigateTo: jest.fn(),
 }));
 
 const mockSignIn = jest.mocked(signIn);
+const mockNavigateTo = jest.mocked(navigateTo);
 
 describe("Login", () => {
   beforeEach(() => {
@@ -72,7 +70,7 @@ describe("Login", () => {
       password: "emilyspass",
       redirect: false,
     });
-    expect(mockReplace).not.toHaveBeenCalled();
+    expect(mockNavigateTo).not.toHaveBeenCalled();
   });
 
   it("redirects to a relative callback URL after signing in", async () => {
@@ -89,7 +87,7 @@ describe("Login", () => {
     fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
 
     await waitFor(() => {
-      expect(mockReplace).toHaveBeenCalledWith("/cart?page=2");
+      expect(mockNavigateTo).toHaveBeenCalledWith("/cart?page=2");
     });
   });
 
@@ -112,7 +110,7 @@ describe("Login", () => {
     fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
 
     await waitFor(() => {
-      expect(mockReplace).toHaveBeenCalledWith("/account");
+      expect(mockNavigateTo).toHaveBeenCalledWith("/account");
     });
   });
 
@@ -134,7 +132,7 @@ describe("Login", () => {
     fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
 
     await waitFor(() => {
-      expect(mockReplace).toHaveBeenCalledWith("/account");
+      expect(mockNavigateTo).toHaveBeenCalledWith("/account");
     });
   });
 
@@ -151,7 +149,7 @@ describe("Login", () => {
     fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
 
     await waitFor(() => {
-      expect(mockReplace).toHaveBeenCalledWith("/account");
+      expect(mockNavigateTo).toHaveBeenCalledWith("/account");
     });
   });
 });
