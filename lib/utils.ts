@@ -8,3 +8,7 @@ export const usd = new Intl.NumberFormat("en-US", {
 export const reviewDateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "medium",
 });
+
+export const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "long",
+});

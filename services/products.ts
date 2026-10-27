@@ -44,3 +44,18 @@ export async function getSingleProduct(productId: number): Promise<Product> {
   const data = response.data;
   return data;
 }
+
+export async function getSearchProduct(
+  title: string,
+  limit = 20,
+  skip = 0,
+): Promise<ProductsResponse> {
+  const response = await api.get(`/products/search?q=${title}`, {
+    params: {
+      limit,
+      skip,
+    },
+  });
+  const data = response.data;
+  return data;
+}

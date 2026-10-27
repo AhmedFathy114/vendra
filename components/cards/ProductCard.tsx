@@ -2,11 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Star } from "lucide-react";
-import { useState } from "react";
 import type { Product } from "@/types/type";
 import { motion } from "motion/react";
 import { usd } from "@/lib/utils";
+import { Star } from "lucide-react";
 
 type ProductCardProps = {
   product: Product;
@@ -19,8 +18,6 @@ export default function ProductCard({
   product,
   isNew = false,
 }: ProductCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
-
   const href = `/shop/products/${product.id}`;
   const discount = Math.round(product.discountPercentage ?? 0);
   const hasDiscount = discount > 0;
@@ -44,21 +41,6 @@ export default function ProductCard({
       viewport={{ once: true, amount: 0.2 }}
       className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-ring"
     >
-      <button
-        type="button"
-        aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-        aria-pressed={isFavorite}
-        onClick={() => setIsFavorite((prev) => !prev)}
-        className="absolute inset-e-3 top-3 z-20 flex size-9 cursor-pointer items-center justify-center rounded-full bg-background/90 shadow-sm transition hover:scale-110"
-      >
-        <Heart
-          size={18}
-          className={
-            isFavorite ? "fill-red-500 text-red-500" : "text-foreground"
-          }
-        />
-      </button>
-
       <div className="pointer-events-none absolute inset-s-3 top-3 z-10 flex flex-col items-start gap-1">
         {isOutOfStock ? (
           <span className="rounded-full bg-foreground px-2.5 py-1 text-xs font-semibold text-background">

@@ -1,13 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import {
-  ChevronDown,
-  Heart,
-  Search,
-  ShoppingBag,
-  UserRound,
-} from "lucide-react";
+import { Search, ShoppingBag, UserRound } from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 
@@ -22,13 +15,7 @@ function IconAction({
 }) {
   return (
     <Link
-      href={
-        label === "Account"
-          ? "/account"
-          : label === "Wishlist"
-            ? "/wishlist"
-            : "/cart"
-      }
+      href={label === "Account" ? "/account" : "/cart"}
       aria-label={count === undefined ? label : `${label}, ${count} items`}
       className="relative inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors hover: focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
@@ -44,7 +31,11 @@ function IconAction({
 
 export function SearchField({ className = "" }: { className?: string }) {
   return (
-    <form action="/" role="search" className={`relative ${className}`}>
+    <form
+      action="/shop/products/search"
+      role="search"
+      className={`relative ${className}`}
+    >
       <label className="sr-only" htmlFor="site-search">
         Search products
       </label>
@@ -72,9 +63,6 @@ export function ActionsSection() {
       <SearchField className="w-52 xl:w-60" />
       <IconAction label="Account">
         <UserRound className="size-5.5 cursor-pointer hover:text-red-700" />
-      </IconAction>
-      <IconAction label="Wishlist" count={0}>
-        <Heart className="size-5.5 cursor-pointer hover:text-red-700" />
       </IconAction>
       <IconAction label="Cart" count={0}>
         <ShoppingBag className="size-5.5 cursor-pointer hover:text-red-700" />

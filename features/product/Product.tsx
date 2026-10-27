@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import {
   ChevronRight,
+  LoaderCircle,
   Minus,
   Package,
   Plus,
@@ -16,6 +17,7 @@ import {
   Tag,
   Truck,
 } from "lucide-react";
+import { useAddToCart } from "@/hooks/queries/useAddToCart";
 import { useSingleProduct } from "@/hooks/queries/useSingleProduct";
 import { primaryLinks } from "@/lib/Links";
 import type { Product as ProductType } from "@/types/type";
@@ -23,8 +25,17 @@ import { usd } from "@/lib/utils";
 import ReviewCard from "@/components/cards/ReviewCard";
 import ProductGallery from "./ProductGallery";
 import ProductSkeleton from "./ProductSkeleton";
+import LoadingModel from "@/components/Loaders/LoadingModel";
 
-function ProductDetails({ product }: { product: ProductType }) {
+function ProductDetails({
+  product,
+  userId,
+}: {
+  product: ProductType;
+  userId: number | null;
+}) {
+  const router = useRouter();
+  const { addToCart, isAdding } = useAddToCart(userId);
   const discount = Math.round(product.discountPercentage ?? 0);
   const hasDiscount = discount > 0;
   const finalPrice = hasDiscount
@@ -66,6 +77,7 @@ function ProductDetails({ product }: { product: ProductType }) {
 
   const [quantity, setQuantity] = useState(minimumOrder);
   const [added, setAdded] = useState(false);
+  const [addError, setAddError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!added) return;
@@ -73,6 +85,32 @@ function ProductDetails({ product }: { product: ProductType }) {
     const timer = window.setTimeout(() => setAdded(false), 2000);
     return () => window.clearTimeout(timer);
   }, [added]);
+
+  async function handleAddToCart() {
+    setAddError(null);
+    setAdded(false);
+
+    if (!userId) {
+      router.push(`/login?callbackUrl=/shop/products/${product.id}`);
+      return;
+    }
+
+    try {
+      await addToCart({
+        product: {
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          discountPercentage: product.discountPercentage,
+          thumbnail: product.thumbnail,
+        },
+        quantity,
+      });
+      setAdded(true);
+    } catch {
+      setAddError("Could not add this product to your cart. Please try again.");
+    }
+  }
 
   const assurances = [
     {
@@ -299,20 +337,37 @@ function ProductDetails({ product }: { product: ProductType }) {
 
             <button
               type="button"
-              onClick={() => setAdded(true)}
-              disabled={isOutOfStock}
+              onClick={handleAddToCart}
+              disabled={isOutOfStock || isAdding}
               className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-foreground px-6 text-sm font-semibold text-background transition-colors hover:bg-red-600 hover:text-white disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground"
             >
-              <ShoppingBag className="size-4" aria-hidden="true" />
+              {isAdding ? (
+                <LoaderCircle
+                  className="size-4 animate-spin"
+                  aria-hidden="true"
+                />
+              ) : (
+                <ShoppingBag className="size-4" aria-hidden="true" />
+              )}
               <span aria-live="polite">
                 {isOutOfStock
                   ? "Out of stock"
-                  : added
-                    ? "Added to cart"
-                    : "Add to cart"}
+                  : isAdding
+                    ? "Adding..."
+                    : added
+                      ? "Added to cart"
+                      : userId
+                        ? "Add to cart"
+                        : "Sign in to add"}
               </span>
             </button>
           </div>
+
+          {addError && (
+            <p role="alert" className="mt-3 text-sm text-destructive">
+              {addError}
+            </p>
+          )}
 
           <p className="mt-3 text-xs text-muted-foreground">
             Minimum order: {product.minimumOrderQuantity} item(s)
@@ -389,7 +444,13 @@ function ProductDetails({ product }: { product: ProductType }) {
   );
 }
 
-export default function Product({ productId }: { productId: number }) {
+export default function Product({
+  productId,
+  userId,
+}: {
+  productId: number;
+  userId: number | null;
+}) {
   const { product, isLoading, isError } = useSingleProduct(productId);
 
   if (!Number.isInteger(productId) || productId <= 0) notFound();
@@ -397,5 +458,14 @@ export default function Product({ productId }: { productId: number }) {
   if (isLoading) return <ProductSkeleton />;
   if (!product) notFound();
 
-  return <ProductDetails key={product.id} product={product} />;
+  return (
+    <>
+      <LoadingModel
+        duration={800}
+        key={product.id}
+        message={`Loading ${product.title}`}
+      />
+      <ProductDetails product={product} userId={userId} />
+    </>
+  );
 }

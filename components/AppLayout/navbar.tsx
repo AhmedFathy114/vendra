@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Grid2X2,
-  Heart,
-  House,
-  Menu,
-  ShoppingBag,
-  UserRound,
-} from "lucide-react";
+import { Grid2X2, House, Menu, ShoppingBag, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { BrandSection } from "@/components/AppLayout/brand-section";
@@ -35,14 +28,13 @@ function MobileBottomNav({ openMenu }: { openMenu: () => void }) {
     { label: "Home", href: "/", icon: <House /> },
     { label: "Account", href: "/account", icon: <UserRound /> },
     { label: "Categories", icon: <Grid2X2 />, onClick: openMenu },
-    { label: "Wishlist", href: "/wishlist", icon: <Heart />, count: 0 },
     { label: "Cart", href: "/cart", icon: <ShoppingBag />, count: 0 },
   ];
 
   return (
     <nav
       aria-label="Mobile navigation"
-      className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-border bg-background/95 px-1 pb-[max(env(safe-area-inset-bottom),0.25rem)] pt-1 backdrop-blur lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-border bg-background/95 px-1 pb-[max(env(safe-area-inset-bottom),0.25rem)] pt-1 backdrop-blur lg:hidden "
     >
       {items.map((item) => {
         const content = (
