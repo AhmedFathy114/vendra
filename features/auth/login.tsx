@@ -15,6 +15,20 @@ type LoginFormValues = {
 const inputClassName =
   "h-11 w-full rounded-xl border border-input bg-background px-3.5 text-sm outline-none transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20";
 
+function getSafeDestination(callbackUrl: string | null) {
+  if (!callbackUrl) return "/account";
+
+  try {
+    const url = new URL(callbackUrl, window.location.origin);
+
+    if (url.origin !== window.location.origin) return "/account";
+
+    return `${url.pathname}${url.search}${url.hash}` || "/account";
+  } catch {
+    return "/account";
+  }
+}
+
 function Login() {
   const router = useRouter();
   const {
@@ -50,13 +64,8 @@ function Login() {
       const callbackUrl = new URLSearchParams(window.location.search).get(
         "callbackUrl",
       );
-      const destination =
-        callbackUrl?.startsWith("/") && !callbackUrl.startsWith("//")
-          ? callbackUrl
-          : "/account";
 
-      router.replace(destination);
-      router.refresh();
+      router.replace(getSafeDestination(callbackUrl));
     } catch {
       setError("root", {
         message: "Something went wrong. Please try again.",

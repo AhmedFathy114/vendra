@@ -3,7 +3,6 @@ import { signIn } from "next-auth/react";
 import Login from "@/features/auth/login";
 
 const mockReplace = jest.fn();
-const mockRefresh = jest.fn();
 
 jest.mock("next-auth/react", () => ({
   signIn: jest.fn(),
@@ -12,7 +11,6 @@ jest.mock("next-auth/react", () => ({
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
     replace: mockReplace,
-    refresh: mockRefresh,
   }),
 }));
 
@@ -77,7 +75,7 @@ describe("Login", () => {
     expect(mockReplace).not.toHaveBeenCalled();
   });
 
-  it("redirects to a safe callback URL after signing in", async () => {
+  it("redirects to a relative callback URL after signing in", async () => {
     mockSignIn.mockResolvedValue({
       error: undefined,
       code: "success",
@@ -85,15 +83,59 @@ describe("Login", () => {
       ok: true,
       url: "/cart",
     });
-    window.history.replaceState({}, "", "/login?callbackUrl=%2Fcart");
+    window.history.replaceState({}, "", "/login?callbackUrl=%2Fcart%3Fpage%3D2");
 
     render(<Login />);
     fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
 
     await waitFor(() => {
-      expect(mockReplace).toHaveBeenCalledWith("/cart");
+      expect(mockReplace).toHaveBeenCalledWith("/cart?page=2");
     });
-    expect(mockRefresh).toHaveBeenCalled();
+  });
+
+  it("accepts an absolute same-origin callback URL", async () => {
+    mockSignIn.mockResolvedValue({
+      error: undefined,
+      code: "success",
+      status: 200,
+      ok: true,
+      url: "/account",
+    });
+    const callbackUrl = encodeURIComponent(`${window.location.origin}/account`);
+    window.history.replaceState(
+      {},
+      "",
+      `/login?callbackUrl=${callbackUrl}`,
+    );
+
+    render(<Login />);
+    fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
+
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith("/account");
+    });
+  });
+
+  it("ignores an external callback URL", async () => {
+    mockSignIn.mockResolvedValue({
+      error: undefined,
+      code: "success",
+      status: 200,
+      ok: true,
+      url: "/account",
+    });
+    window.history.replaceState(
+      {},
+      "",
+      "/login?callbackUrl=https%3A%2F%2Fevil.example%2Faccount",
+    );
+
+    render(<Login />);
+    fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
+
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith("/account");
+    });
   });
 
   it("falls back to the account page without a callback URL", async () => {
